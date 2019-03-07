@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8"/>
+	<title>Игра пятнашки</title>
+
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+	<style type="text/css">
+	.container{
+		padding-top: 30px;
+	}
+	#div_squareGame{
+		margin-top: 30px;
+	}
+	.s_row{
+		
+	}
+	.s_col{
+		width: 40px;
+		height: 40px;
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+		border: 1px solid #ccc;
+		margin: 0 3px;
+	}
+	.s_col:hover{
+		background: #ccc;
+		cursor: pointer;
+	}
+	.errors{
+		color: red;
+	}
+	.input-group{
+		margin-bottom: 10px;
+	}
+	</style>
+
+	<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" async="false" src="js/SquareGame.min.js"></script>
+	<script type="text/javascript">
+	jQuery(document).ready(function() {
+		
+	    function showErrors(type, msg) {
+	        $('#errors_' + type).html(msg);
+	    }
+
+	    // процесс формирования поля
+	    $('#btn_genSquare').click(function() {
+	        var game = {};
+	        // Очищаем поле ошибок
+	        showErrors('genSquare', '');
+
+	        var sizeSquare = parseInt($('#input_sizeSquare').val());
+
+	        if (isNaN(sizeSquare))
+	            sizeSquare = 0;
+
+	        $('#input_sizeSquare').val(sizeSquare);
+
+	        if (sizeSquare < 2) {
+	            showErrors('genSquare', 'Недопустимый размер поля.');
+	            return;
+	        }
+
+	        // Тут начинаем генерацию нашего поля
+	        game = new SquareGame('div_squareGame', sizeSquare, 'btn_showSolution');
+
+	    });
+	});
+	</script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Игра в пятнашки</h3>
+			</div>
+
+			<div class="col-md-5">	
+				<h5>Генерация поля:</h5> 
+
+				<div id="errors_genSquare" class="errors"></div>
+
+				<div class="input-group">
+					<label>Длина стороны:</label>
+					<input type="text" class="form-control" id="input_sizeSquare" />
+				</div>
+				<br/>
+				<div class="input-group">
+					<button id="btn_genSquare" class="btn btn-primary">Новая игра</button>
+				</div>
+
+				<div class="input-group">
+					<button id="btn_showSolution" class="btn btn-danger" disabled>Сделать шаг</button>
+				</div>
+
+			</div>
+
+			<div class="col-md-12">
+				<div id="div_squareGame" style="padding-bottom: 20px;">
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
